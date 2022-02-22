@@ -104,7 +104,7 @@ analytics:
 author:
   name             : "Junghyun Han"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Junior Developer"
+  bio              : "Junior Developer<br>Undergraduate"
   location         : "Seoul Nat'l Univ."
   email            :
   links:
