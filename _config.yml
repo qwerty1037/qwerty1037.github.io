@@ -106,7 +106,7 @@ author:
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Junior Developer<br>Undergraduate"
   location         : "Seoul Nat'l Univ."
-  email            : "qwertyhjh1037@gmail.com"
+  email            : #"qwertyhjh1037@gmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
