@@ -7,4 +7,8 @@ toc_sticky: true
 toc_label: "MYSELF"
 ---
 
-#Hello!
+### Hello!   
+
+### I am a junior developer.
+
+#### I am Seoul Nat'l University undergraduage student, majoring mechanical engineering. 
