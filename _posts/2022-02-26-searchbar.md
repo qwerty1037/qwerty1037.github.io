@@ -222,3 +222,8 @@ Widget _buildList () {
   );
 }
 ```
+
+검색창 구현을 완료하였다!  
+전체 코드는 필자의 깃허브에 올려놓았다. 아래에 링크를 첨부한다.
+
+<https://github.com/qwerty1037/flutter/tree/main/flutter_study_220224>
