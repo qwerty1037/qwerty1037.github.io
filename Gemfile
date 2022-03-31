@@ -13,7 +13,6 @@ gem "jekyll-include-cache"
 gem "jekyll-paginate"
 gem "jekyll-sitemap"
 gem "jekyll-gist"
-gem "jekyll-feed", "~> 0.12"
 
 
 # This is the default theme for new Jekyll sites. You may change this to anything you like.
