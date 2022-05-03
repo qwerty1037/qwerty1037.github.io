@@ -3,6 +3,18 @@ layout: single
 title: "[flutter] 검색창 구현"
 ---
 
+전체 코드는 필자의 깃허브에 올려놓았다. 아래에 링크를 첨부한다.
+
+<https://github.com/qwerty1037/flutter/tree/main/searchbar>
+
++220401 추가) 검색창 코드를 리팩토링하였다. 리팩토링에 관련된 포스팅은 아래 링크를 참조하면 된다.  
+
+<link>
+
+또한, 리팩토링된 코드의 링크는 아래와 같다.
+
+<https://github.com/qwerty1037/flutter/tree/main/searchbar_refactored>
+
 ### 1. 클래스와 변수 생성
 
 ---
@@ -224,6 +236,4 @@ Widget _buildList () {
 ```
 
 검색창 구현을 완료하였다!  
-전체 코드는 필자의 깃허브에 올려놓았다. 아래에 링크를 첨부한다.
 
-<https://github.com/qwerty1037/flutter/tree/main/flutter_study_220224>
