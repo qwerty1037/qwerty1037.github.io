@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "Clean Code Chapter 2. 의미 있는 이름"
+categories: clean_code
 ---
 
 ### 1. 의도가 분명하게 이름을 짓기  

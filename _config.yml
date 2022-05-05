@@ -14,7 +14,6 @@
 minimal_mistakes_skin: "air" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
-timezone: Asia/Seoul
 locale: "ko-KR"
 title: "Qwerty1037의 개발 블로그"
 title_separator: "|"
@@ -204,7 +203,7 @@ sass:
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: Asia/Seoul # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 # Plugins (previously gems:)
 plugins:
   - jekyll-paginate
@@ -254,6 +253,14 @@ compress_html:
     envs: development
 # Defaults
 defaults:
+  #_docs
+  - scope:
+      path: ""
+    values:
+      layout: single
+      author_profile: true
+      sidebar:
+        nav: "docs"
   # _posts
   - scope:
       path: ""
@@ -266,6 +273,8 @@ defaults:
       share: true
       related: true
       show_date: true
+      sidebar:
+        nav: "docs"
   #_pages
   - scope:
       path: "_pages"
@@ -273,5 +282,8 @@ defaults:
     values:
       layout: single
       author_profile: true
+      sidebar:
+        nav: "docs"
+  
 
 date_format: "%Y-%m-%d"

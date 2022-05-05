@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "[refactoring] 검색창 리팩토링"
+categories: flutter
 ---
 
 2월 26일 필자가 올렸던 검색창 코드를 리팩토링한다.

@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "[flutter] 검색창 구현"
+categories: flutter
 ---
 
 전체 코드는 필자의 깃허브에 올려놓았다. 아래에 링크를 첨부한다.
