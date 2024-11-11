@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "Multivariable Culculus"
-use_math : True
+use_math : true
 categories: machine_learning
 tags: machine_learning
 toc: true
