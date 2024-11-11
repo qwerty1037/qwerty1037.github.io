@@ -11,9 +11,6 @@
       processEscapes: true
     }
   });
-  MathJax.Hub.Queue(function() {
-      MathJax.Hub.Typeset();
-  });
 MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
     alert("Math Processing Error: "+message[1]);
   });
