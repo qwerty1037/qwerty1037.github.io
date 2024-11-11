@@ -72,6 +72,7 @@ L(\mathbf{w}+\boldsymbol{\epsilon})
 \boldsymbol{\epsilon} \cdot \nabla_{\mathbf{w}}L(\mathbf{w})
 \tag{1.4}
 $$
+
 ※ 이는 다변수 함수의 1차 테일러 근사식이다. $\mathbf{w}$는 고정점으로 간주된다.   
 아마 알고 있겠지만, $\nabla_{\mathbf{w}}L$ 을 L의 *gradient* 라고 한다.
 
