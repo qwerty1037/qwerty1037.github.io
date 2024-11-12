@@ -12,8 +12,8 @@ toc_sticky: true
 
 이 포스팅은 ML을 공부하기 전 알아두면 매우 유용한 다변수 미적분에 대해 다룬다.
 
-아래 책의 내용을 공부하고, 이를 한글로 번역/정리하였다.   
-https://d2l.ai/chapter_appendix-mathematics-for-deep-learning/multivariable-calculus.html
+[해당 책](https://d2l.ai/chapter_appendix-mathematics-for-deep-learning/multivariable-calculus.html)의 내용을 공부하고, 이를 한글로 번역/정리하였다.   
+
 
 ## 1. 고차원 미분(Higher-Dimensional Differentiation)
 
