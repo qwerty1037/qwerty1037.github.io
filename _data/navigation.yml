@@ -12,22 +12,24 @@ main:
 docs:
   - title: Machine Learning
     children:
-      - title : Python Machine Learning 2nd ED.
-        url : /categories/python-machine-learning-2nd-ed
-        
+      - title: Machine Learning
+        url: /categories/machine_learning
+      - title: Python Machine Learning 2nd ED.
+        url: /categories/python-machine-learning-2nd-ed
+
   - title: Mobile Programming
     children:
-    - title: Flutter
-      url : /categories/flutter
+      - title: Flutter
+        url: /categories/flutter
 
   - title: Refactor
-    children : 
-      - title : Clean Code
-        url: /categories/clean-code      
+    children:
+      - title: Clean Code
+        url: /categories/clean-code
 
   - title: ETC
     children:
-      - title : Jekyll
-        url : /categories/jekyll_blog
-      - title : Record
-        url : /categories/record
+      - title: Jekyll
+        url: /categories/jekyll_blog
+      - title: Record
+        url: /categories/record
