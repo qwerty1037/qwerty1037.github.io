@@ -1,7 +1,7 @@
 ---
 title: "Clean Code"
 layout: archive
-permalink: categories/clean-code
+permalink: categories/clean_code
 ---
 
 {% assign posts = site.categories.clean_code %}

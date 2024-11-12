@@ -1,7 +1,7 @@
 ---
-title: "Python Machine Learning 2nd ED."
+title: "Machine Learning"
 layout: archive
-permalink: categories/python-machine-learning-2nd-ed
+permalink: categories/machine_learning
 ---
 
 {% assign posts = site.categories.machine_learning %}
