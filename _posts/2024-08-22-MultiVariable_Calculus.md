@@ -69,7 +69,7 @@ $$
 \text{,  }
 L(\mathbf{w}+\boldsymbol{\epsilon})
 \approx
-\boldsymbol{\epsilon} \cdot \nabla_{\mathbf{w}}L(\mathbf{w})
+L(\mathbf{w}) + \boldsymbol{\epsilon} \cdot \nabla_{\mathbf{w}}L(\mathbf{w})
 \tag{1.4}
 $$
 
