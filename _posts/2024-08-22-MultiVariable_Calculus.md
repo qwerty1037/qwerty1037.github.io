@@ -8,8 +8,6 @@ toc: true
 toc_sticky: true
 ---
 
-# MultiVariable Calculus
-
 이 포스팅은 ML을 공부하기 전 알아두면 매우 유용한 다변수 미적분에 대해 다룬다.
 
 [<u>해당 책</u>](https://d2l.ai/chapter_appendix-mathematics-for-deep-learning/multivariable-calculus.html)의 내용을 공부하고, 이를 한글로 번역/정리하였다.   
@@ -100,13 +98,14 @@ $$
 
 아래 4변수($w,x,y,z$) 함수를 가정하자.
 
+<a id="equation2.1"></a>
 $$
 \begin{align*}
 f(u,v) &= (u+v)^2\\
 u(a,b) &= (a+b)^2, && v(a,b) = (a-b)^2, \\
 a(w,x,y,z) &= (w+x+y+z)^2, && b(w,x,y,z) = (w+x-y-z)^2,
 \end{align*}
-\tag{1.6}
+\tag{2.1}
 $$
 
 이를 Neural Network로 시각화하면 아래와 같다.
@@ -128,13 +127,284 @@ $$
 + \epsilon \left[\frac{\partial f}{\partial u}(u(a,b),v(a,b)) \frac{\partial u}{\partial a}(a,b) 
 + \frac{\partial f}{\partial v}(u(a,b),v(a,b)) \frac{\partial v}{\partial a}(a,b) \right] \\
 \end{align*}
-\tag{1.7}
+\tag{2.2}
 $$
 
 이를 아래와 같이 축약하여 표현할 수 있다.
 
 $$
 \frac{\partial f}{\partial a} = \frac{\partial f}{\partial u} \frac{\partial u}{\partial a} + \frac{\partial f}{\partial v}\frac{\partial v}{\partial a}
-\tag{1.8}
+\tag{2.3}
 $$
+
+예시를 들어, 아래와 같은 네트워크를 가정하자.
+
+[TODO: 이미지]
+
+$$
+\frac{\partial f}{\partial y} = 
+\frac{\partial f}{\partial a} \cdot \frac{\partial a}{\partial u} \cdot \frac{\partial u}{\partial y} +
+\frac{\partial f}{\partial u} \cdot \frac{\partial u}{\partial y} + 
+\frac{\partial f}{\partial b} \cdot \frac{\partial b}{\partial v} \cdot \frac{\partial v}{\partial y} 
+\tag{2.4}
+$$
+
+와 같이 chain rule을 이용해 표현할 수 있다.
+
+## 3. BackPropagation Algorithm(역전파 알고리즘)
+
+다시 아래 네트워크[(2.1)](#equation2.1)로 돌아오자.
+
+$$
+\begin{align*}
+f(u,v) &= (u+v)^2\\
+u(a,b) &= (a+b)^2, && v(a,b) = (a-b)^2, \\
+a(w,x,y,z) &= (w+x+y+z)^2, && b(w,x,y,z) = (w+x-y-z)^2,
+\end{align*}
+\tag{3.1}
+$$
+
+$\frac{\partial f}{\partial w}$를 계산하고자 한다면, 설명한 chain-rule을 이용하면 된다.
+
+$$
+\begin{align*}\tag{3.2}
+& \frac{\partial f}{\partial w} = 
+\frac{\partial f}{\partial u} \cdot \frac{\partial u}{\partial w} + 
+\frac{\partial f}{\partial v} \cdot \frac{\partial v}{\partial w} ,\\[0.7em]
+
+& \frac{\partial u}{\partial w} = 
+\frac{\partial u}{\partial a} \cdot \frac{\partial a}{\partial w} + 
+\frac{\partial u}{\partial b} \cdot \frac{\partial b}{\partial w} ,\\[0.7em]
+
+& \frac{\partial f}{\partial w} = 
+\frac{\partial v}{\partial a} \cdot \frac{\partial a}{\partial w} + 
+\frac{\partial v}{\partial b} \cdot \frac{\partial b}{\partial w} .\\
+\end{align*}
+$$
+
+※ 방향에 주목하자. $\frac{\partial f}{\partial w}$를 구하기 위해, $\frac{\partial a}{\partial w}$ 부터 $f$로 올라가며 구해야 한다<Strong>(Input -> Output)</Strong>. 이를 <Strong>정방향</Strong>이라 정의한다.
+
+그러나, 이는 여전히 $\frac{\partial f}{\partial x}$와 같은 것을 계산하는 것을 쉽게 하지 않는다. 그 이유는 chain-rule을 적용하는 <Strong>방향</Strong>에 있다.   
+위의 방식은 분모(denominator)에 항상 $\partial w$가 있다. 이 방법으로 $w$가 다른 변수들을 어떻게 변화시키는지 관찰할 수 있다.   
+그러나, deep learning에서 우리가 진짜 알고 싶은 것은 <Strong>어떻게 모든 변수가 *loss*를 변화</Strong>시키는지이다!   
+따라서, $\partial f$를 분자(numerator)에 계속 유지하며 chain rule을 적용하자.
+
+$$
+\begin{align*}\tag{3.3}
+\frac{\partial f}{\partial w} &= 
+\frac{\partial f}{\partial a} \cdot \frac{\partial a}{\partial w} + 
+\frac{\partial f}{\partial b} \cdot \frac{\partial b}{\partial w} ,\\[0.7em]
+
+\frac{\partial f}{\partial a} &= 
+\frac{\partial f}{\partial u} \cdot \frac{\partial u}{\partial a} + 
+\frac{\partial f}{\partial v} \cdot \frac{\partial v}{\partial a} ,\\[0.7em]
+
+\frac{\partial f}{\partial b} &= 
+\frac{\partial f}{\partial u} \cdot \frac{\partial u}{\partial b} + 
+\frac{\partial f}{\partial v} \cdot \frac{\partial v}{\partial b} .\\
+\end{align*}
+$$
+
+※ 다시 방향에 주목해보면, $\frac{\partial f}{\partial u}$ 부터 $\frac{\partial f}{\partial w}$로 내려가며 계산한다<Strong>(Output -> Input)</Strong>. 이를 <Strong>역방향</Strong>이라 정의한다.
+
+도함수를 입력->출력 순으로 계산하는 대신, $f$로부터 입력 쪽으로 역방향으로 계산한다. 이것이 이 알고리즘의 이름이 <Strong>역전파(BackPropagation)</Strong>인 이유다!   
+역전파는 2가지 단계를 따른다.   
+Step 1) $f$의 값을 구하고, 앞에서 뒤로 단일 단계 편미분(ex: $\frac{\partial f}{\partial u}$)을 구한다. (이들을 합치면 하나의 *forward pass*가 된다.)   
+Step 2) $f$의 gradient를 뒤에서 앞으로(*backward pass*) 구한다.
+
+### 3-1. 그래서 역전파가 왜 효율적인가?
+
+[TODO: 내용 작성]
+
+## 4. Hessians(헤시안 행렬)
+
+더 나은 근사를 위해서, gradient만을 사용하기보다 고차 미적분을 사용하는 것을 고려할 수 있다.
+
+그러나 "개수가 너무 많다" 는 큰 문제가 있다. 만약 $f(x_1,...,x_n)$의 $n$변수 함수가 있으면, $n^2$의 이차도함수가 존재한다.
+
+$$
+\tag{4.1}
+\frac{d^2f}{dx_idx_j} = \frac{d}{dx_i}\left(\frac{d}{dx_j}f\right)
+$$
+
+이를 *Hessian* 행렬로 묶을 수 있다.
+
+$$
+\tag{4.2}
+H_f = 
+\begin{bmatrix}
+\frac{d^2f}{dx_1dx_1} & \cdots & \frac{d^2f}{dx_1dx_n} \\
+\vdots & \ddots & \vdots \\
+\frac{d^2f}{dx_ndx_1} & \cdots & \frac{d^2f}{dx_ndx_n}
+\end{bmatrix}
+$$
+
+이 행렬의 모든 항이 독립인 것은 아니다. 실제로 mixed partials(혼합 편도함수, 2개 이상의 변수에 대한 편미분)이 존재하고 연속적이라면, 모든 $i$와 $j$에 대해 아래와 같이 쓸 수 있다.
+
+$$
+\tag{4.3}
+\forall i,j,\ \frac{d^2f}{dx_idx_j} = \frac{d^2f}{dx_jdx_i} 
+$$
+
+※ 선형대수학의 *independent*와는 다르게, 여기에서 독립은 헤시안 행렬의 각 항목이 서로 종속되지 않고 고유한 정보(unique information)를 제공하는가에 대한 의미로 사용된다.   
+※ 이유가 궁금하면, 4-1 섹션의 클레로의 정리(Clairaut's theorem)을 참조하라.
+
+이를 이용해, 특정 점 $\mathbf{x}_0$ 근처에서 가장 잘 맞는(근사하는) 이차함수(quadratic)을 찾을 수 있다.
+
+아래 예시를 보자.
+
+$$
+\tag{4.4}
+f(x_1,x_2) = a + b_1x_1 + b_2x_2 + c_{11}x_1^2 + c_{12}x_1x_2 + c_{22}x_2^2
+$$
+
+이는 2변수 이차함수의 일반적 표현이다. 영점에서의 함수값, gradient, hessian을 살펴보면,
+
+$$
+\begin{align*}\tag{4.5}
+f(0,0) &= a \\
+\nabla f(0,0) &= 
+\begin{bmatrix}
+b_1 \\ b_2
+\end{bmatrix}
+\\[0.8em]
+\mathbf{H}f(0,0) &=
+\begin{bmatrix}
+2c_{11} & c_{12} \\
+c_{12} & 2c_{22}
+\end{bmatrix}
+\end{align*}
+$$
+
+원래의 다항식을 벡터꼴로 되돌리자.
+
+$$\tag{4.6}
+f(\mathbf{x})=f(0)+\nabla f(0)\cdot \mathbf{x}\ + \frac{1}{2} \mathbf{x}^{\top}\mathbf{H}f(0)\mathbf{x}
+$$
+
+이를 일반화하면, 다변수함수의 2차 테일러 근사식이 도출된다.
+
+$$\tag{4.7}
+f(\mathbf{x})=f(\mathbf{x}_0)+\nabla f(\mathbf{x}_0)\cdot (\mathbf{x}-\mathbf{x}_0)\ + \frac{1}{2} (\mathbf{x}-\mathbf{x}_0)^{\top}\mathbf{H}f(\mathbf{x}_0)(\mathbf{x}-\mathbf{x}_0)
+$$
+
+## 5. A Little Matrix Calculus(행렬 미적분)
+
+이 섹션에서는 행렬 미적분에 대해 다룬다. 개인적으로 이 부분을 모르고 머신러닝을 공부했을때 큰 어려움을 겪어서, 이 섹션의 중요도가 아주 높다고 생각한다. 이 섹션을 완벽하게 이해한다면, 앞으로 머신러닝을 배울 때 나오는 수식들에 대해 막연함만을 느끼는 일은 줄어들 것이라 생각한다.
+
+* $f(\mathbf{x})=\boldsymbol{\beta}^{\top}\mathbf{x}$
+
+행렬의 도함수를 다룰 때 유용한 표기법인 *"denominator layout matrix derivative"*(분모 배열 행렬 도함수)를 알아보자. 이는 편미분을 차례로 나열하여, 미분의 <Strong>분모</Strong>에 위치한 벡터/행렬/텐서 형태로 나타낸다. 쉽게 말해, 미분하는 변수(denominator)의 차원과 결과물의 차원을 맞추는 것이다.
+
+고정된 열벡터 $\boldsymbol{\beta}$와 내적함수 $f(\mathbf{x})=\boldsymbol{\beta}^{\top}\mathbf{x}$ 에 대해,
+
+$$\tag{5.1}
+\frac{df}{d\mathbf{x}} = 
+\begin{bmatrix}
+\frac{df}{dx_1} \\
+\vdots \\
+\frac{df}{dx_n}
+\end{bmatrix}
+$$
+
+$\mathbf{x}$의 차원과 $\frac{df}{d\mathbf{x}}$의 차원이 동일함에 주목하자.
+
+함수를 구성 요소로 풀어서 정리하면,
+
+$$\tag{5.2}
+f(\mathbf{x}) = \sum_{i=1}^n \beta_ix_i = \beta_1x_1 + \cdots + \beta_nx_n
+$$
+
+각각의 변수에 대해 편미분을 취하자.
+
+$$\tag{5.3}
+\frac{df}{dx_1} = \beta_1 \quad \cdots \quad \frac{df}{dx_n} = \beta_n
+$$
+
+이를 다시 행렬로 표현하면 최종적으로 아래와 같다.
+
+$$\tag{5.4}
+\frac{df}{d\mathbf{x}} = 
+\begin{bmatrix}
+\frac{df}{dx_1} \\
+\vdots \\
+\frac{df}{dx_n}
+\end{bmatrix} =
+\begin{bmatrix}
+\beta_1 \\
+\vdots \\
+\beta_n
+\end{bmatrix} =
+\boldsymbol{\beta}
+$$
+
+이 섹션에서 자주 볼 수 있는 행렬 미적분의 성질:
+
+  1. 계산 과정은 복잡하다.
+  2. 최종 결과는 깔끔하고, 1변수 미적분과 유사한 결과가 보일 것이다. $\left(\frac{d}{dx}(bx)=b, \frac{d}{dx}(\boldsymbol{\beta}^{\top}\mathbf{x}) = \boldsymbol{\beta}\right)$
+  3. 뜬금없는 전치(transpose)가 나타날 수 있다. 이는 분모의 형상(차원)에 맞추기 위함이다.
+
+직관을 가지고, 더 나아가보자.
+
+* $\frac{d}{d\mathbf{x}}\left( \mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} \right)$
+
+계산의 중복을 줄이기 위해, Einstein notation(아인슈타인 표기법)을 사용하자.   
+※ 아인슈타인 표기법이 뭐에요? 부록 3으로
+
+$$\tag{5.5}
+\mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} = x_ia_{ij}x_j
+$$
+
+여기서부터 혼돈이 올 수 있으므로, 간단한 예시를 들어 직접 계산해보자.
+
+$$\tag{5.6}
+\mathbf{x} = 
+\begin{bmatrix}
+x_1 \\ x_2
+\end{bmatrix}
+,\ 
+\boldsymbol{A} = 
+\begin{bmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{bmatrix},
+$$
+
+일 때,
+
+$$\tag{5.7}
+\begin{align*}
+\mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} 
+&=
+\begin{bmatrix}
+x_1 & x_2
+\end{bmatrix}
+\begin{bmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\ x_2
+\end{bmatrix} \\
+&=
+\begin{bmatrix}
+x_1 & x_2
+\end{bmatrix}
+\begin{bmatrix}
+a_{11}x_1 + a_{12}x_2 \\ a_{21}x_1 + a_{22}x_2
+\end{bmatrix} \\
+&= x_1a_{11}x_1 + x_1a_{12}x_2 + x_2a_{21}x_1 + x_2a_{22}x_2 \\
+&= \sum_{i=1}^2 \sum_{j=1}^2 x_ia_{ij}x_j
+\end{align*}
+$$
+
+따라서 아인슈타인 표기법으로 나타내면 (수식 5.5)와 같다.
+
+다시 나아가서,
+
+$$
+\frac{d}{dx_k}\left(\mathbf{x}^{\top} \boldsymbol{A} \mathbf{x}\right) = \frac{d}{dx_k} x_ia_{ij}x_j
+= \frac{dx_i}{dx_k}a_{ij}x_j + x_ia_{ij}\frac{dx_j}{dx_k} = a_{kj}x_j+x_ia_{ik}
+$$
+
 
