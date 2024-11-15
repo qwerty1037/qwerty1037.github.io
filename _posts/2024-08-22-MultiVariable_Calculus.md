@@ -37,7 +37,7 @@ L(w_1,w_2,\cdots,w_n) + \epsilon_2 \frac{\partial}{\partial w_2} L(w_1,w_2,\cdot
 &\quad + \epsilon_1 \frac{\partial}{\partial w_1} \bigl\{ L(w_1,w_2,\cdots,w_n) + \epsilon_2 \frac{\partial}{\partial w_2} L(w_1,w_2,\cdots,w_n) \bigr\} \\
 & \approx
 L(w_1,w_2,\cdots,w_n) \\
-&\quad + \epsilon_2 \frac{\partial}{\partial w_2} L(w_1,w_2+\epsilon_2,\cdots,w_n) \\
+&\quad + \epsilon_2 \frac{\partial}{\partial w_2} L(w_1,w_2,\cdots,w_n) \\
 &\quad + \epsilon_1 \frac{\partial}{\partial w_1}  L(w_1,w_2,\cdots,w_n) \\
 &\quad + \cancel{\epsilon_1 \epsilon_2 \frac{\partial}{\partial w_1} \frac{\partial}{\partial w_2} L(w_1,w_2,\cdots,w_n)}{} \\
 \end{align*}
@@ -402,14 +402,14 @@ $$
 
 다시 나아가서,
 
-$$
+$$\tag{5.8}
 \frac{d}{dx_k}\left(\mathbf{x}^{\top} \boldsymbol{A} \mathbf{x}\right) = \frac{d}{dx_k} x_ia_{ij}x_j
 = \frac{dx_i}{dx_k}a_{ij}x_j + x_ia_{ij}\frac{dx_j}{dx_k} = a_{kj}x_j+x_ia_{ik}
 $$
 
 아인슈타인 표기법에서 인덱스의 이름은 임의적이다. i와 j가 다른 인덱스라는 것은 중요하지 않으므로, 둘 다 $i$로 인덱싱하자.
 
-$$
+$$\tag{5.9}
 \frac{d}{dx_k}x_ia_{ij}x_j = a_{kj}x_j+x_ia_{ik} = a_{ki}x_i+x_ia_{ik} = (a_{ki}+a_{ik})x_i
 $$
 
@@ -417,13 +417,13 @@ $$
 
 $a_{ki}+a_{ik}$는 $\boldsymbol{A} + \boldsymbol{A}^{\top}$의 $k$행 $i$열이다. 따라서
 
-$$
+$$\tag{5.10}
 \frac{d}{dx_k}x_ia_{ij}x_j = [\boldsymbol{A} + \boldsymbol{A}^{\top}]_{ki}x_i
 $$
 
 아인슈타인 표기법의 정의를 생각해 본다면, 위 식은 $\boldsymbol{A} + \boldsymbol{A}^{\top}$ 과 $\mathbf{x}$의 행렬곱의 $k$번째 행을 뜻한다는 것을 알 수 있다.
 
-$$
+$$\tag{5.11}
 \left[ \frac{d}{d\mathbf{x}}(\mathbf{x}^{\top}\boldsymbol{A}\mathbf{x}) \right]_k = 
 \frac{d}{dx_k}x_ia_{ij}x_j
 = [(\boldsymbol{A} + \boldsymbol{A}^{\top})\mathbf{x}]_k
@@ -431,16 +431,43 @@ $$
 
 좌항과 우항의 k번째 행이 모두 같으므로, 두 값이 같다. 최종적으로 다음을 얻을 수 있다.
 
-$$
+$$\tag{5.12}
 \frac{d}{d\mathbf{x}}(\mathbf{x}^{\top}\boldsymbol{A}\mathbf{x}) = (\boldsymbol{A} + \boldsymbol{A}^{\top})\mathbf{x}
 $$
 
 계산 과정이 정말 복잡했지만, 최종 결과는 매우 간단하다. 더 나아가서, 1변수 미분의 케이스를 보자.
 
-$$
+$$\tag{5.13}
 \frac{d}{dx}(xax) = \frac{dx}{dx}ax + xa\frac{dx}{dx} = (a+a)x
 $$
 
 다시, 단변수일때의 결과와 유사하지만 전치가 포함된 결과를 얻었다.
 
-그런데 왜 이러한 패턴이 보일까? 왜 그런지 알아보자. 행렬 미분을 할 때, 결과값이 또 다른 행렬 표현이라고 가정해보자. 즉, 행렬과 그 전치 행렬의 곱과 합으로 표현할 수 있는 형태가 될 것이다. 그러한 표현이 존재한다면, 모든 행렬에 대해 성립해야 한다. 특히 1x1행렬(scalar)에 대해서도 성립해야 하는데, 이 경우 행렬곱은 숫자곱에 불과하고, 행렬 합은 단순 덧셈이며, 전치 연산은 아무 영향을 미치지 않는다. 즉, 우리가 얻는 어떤 표현이든 단일 변수 표현과 일치해야 한다! 이는 어느 정도 연습을 하면, 관련 단일 변수 표현을 알고 있는 것만으로도 종종 행렬 미분을 추측할 수 있다는 뜻이다.
+그런데 왜 이러한 패턴이 보일까? 왜 그런지 알아보자. 행렬 미분을 할 때, 결과값이 또 다른 행렬 표현이라고 가정해보자. 즉, 행렬과 그 전치 행렬의 곱과 합으로 표현할 수 있는 형태가 될 것이다. 그러한 표현이 존재한다면, 모든 행렬에 대해 성립해야 한다. 
+특히 1x1행렬(scalar)에 대해서도 성립해야 하는데, 이 경우 행렬곱은 숫자곱에 불과하고, 행렬 합은 단순 덧셈이며, 전치 연산은 아무 영향을 미치지 않는다. 
+즉, 우리가 얻는 어떤 표현이든 단일 변수 표현과 일치해야 한다! 이는 어느 정도 연습을 하면, 관련 단일 변수 표현을 알고 있는 것만으로도 종종 행렬 미분을 추측할 수 있다는 뜻이다.
+
+* $\frac{\partial}{\partial \boldsymbol{V}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2$ 
+
+$\boldsymbol{X}$는 $n \times m$행렬, $\boldsymbol{U}$는 $n \times r$행렬, $\boldsymbol{V}$는 $r \times m$행렬이다. 
+
+이 계산은 *Matrix Factorization(행렬 분해)* 영역에서 중요한 역할을 한다. 그러나, 지금은 그냥 미분 계산에 불과하다.
+
+1 $\times$ 1 행렬(scalar)에서는 어떠할지 생각해 보자. 
+
+$$\tag{5.14}
+\frac{d}{d v}(x-uv)^2 = -2(x-uv)u
+$$
+
+행렬 표현으로 전환하면 아래와 같다.
+
+$$\tag{5.15}
+\frac{\partial}{\partial \boldsymbol{V}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+-2(\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V})\boldsymbol{U}
+$$
+
+그러나, 이는 정확하지 않다. $(\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V})$는 $n\times m$ 행렬이고, $\boldsymbol{U}$는 $n\times r$ 행렬이다.
+행렬곱을 하기에 차원이 맞지 않는다.
+
+구하고자 하는 대상은 $\frac{d}{d\boldsymbol{V}}$이다. *Denominator layout matrix derivative* 표기법에 따라 결과값의 차원은 $\boldsymbol{V}$와 같은 $r \times m$이여야 한다.
