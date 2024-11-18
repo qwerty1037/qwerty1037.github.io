@@ -526,6 +526,41 @@ $$\tag{5.22}
 x_{ib}-\sum_k u_{ik}v_{kb} = [\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}]_{ib}
 $$
 
+전체 미분을 나타내면,
+
+$$\tag{5.23}
+\frac{d}{d v_{ab}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+-2 \sum_i [\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}]_{ib} u_{ia}
+$$
+
+이전 예제처럼 각 행과 열의 요소가 같으므로 좌변과 우변은 같은 행렬이라는 결론을 내기 위해, 우변이 행렬의 $a$, $b$ 요소로 표현되면 좋을 것 같다.
+$u_{ia}=[\boldsymbol{U}^{\top}]_{ai}$ 이므로, 아래와 같이 인덱스를 바꿔 표현할 수 있다.
+
+$$\tag{5.24}
+\frac{d}{d v_{ab}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+-2 \sum_i [\boldsymbol{U}^{\top}]_{ai} [\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}]_{ib}
+$$
+
+잘 보면, 위는 행렬곱을 풀어서 쓴 식이다. 따라서
+
+$$\tag{5.25}
+\frac{d}{d v_{ab}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+-2 [\boldsymbol{U}^{\top}(\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V})]_{ab}
+$$
+
+따라서, 최종 결과는 아래와 같다.
+
+$$\tag{5.26}
+\frac{d}{d \boldsymbol{V}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+-2 \boldsymbol{U}^{\top}(\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V})
+$$
+
+추정한 값과 실제 계산 결과가 일치하는 것을 확인할 수 있다!
+
 ---
 
 <a id="footnote-1"></a>[1]
