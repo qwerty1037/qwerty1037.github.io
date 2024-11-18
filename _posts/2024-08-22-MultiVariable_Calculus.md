@@ -212,9 +212,9 @@ $$
 Step 1) $f$의 값을 구하고, 앞에서 뒤로 단일 단계 편미분(ex: $\frac{\partial f}{\partial u}$)을 구한다. (이들을 합치면 하나의 *forward pass*가 된다.)   
 Step 2) $f$의 gradient를 뒤에서 앞으로(*backward pass*) 구한다.
 
-### 3-1. 그래서 역전파가 왜 효율적인가?
-
-[TODO: 내용 작성]
+이쯤에서 하나의 의문이 들 수 있다. 
+역전파와 정방향 전파나 계산하는 것은 유사한데, 왜 역전파를 굳이 사용하는가? 이 포스팅은 수학적 이론에 대해서 다루고 있지만, 이 글을 쓰면서도 궁금했다!
+이유가 궁금하다면 [부록1](#appendix1)을 참조하자.
 
 ## 4. Hessians(헤시안 행렬)
 
@@ -247,7 +247,7 @@ $$
 $$
 
 ※ 선형대수학의 *independent*와는 다르게, 여기에서 독립은 헤시안 행렬의 각 항목이 서로 종속되지 않고 고유한 정보(unique information)를 제공하는가에 대한 의미로 사용된다.   
-※ 이유가 궁금하면, 4-1 섹션의 클레로의 정리(Clairaut's theorem)을 참조하라.
+※ 이유가 궁금하면, [부록2](#appendix2)의 클레로의 정리(Clairaut's theorem)을 참조하라.
 
 이를 이용해, 특정 점 $\mathbf{x}_0$ 근처에서 가장 잘 맞는(근사하는) 이차함수(quadratic)을 찾을 수 있다.
 
@@ -349,7 +349,7 @@ $$
 * $\frac{d}{d\mathbf{x}}\left( \mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} \right)$
 
 계산의 중복을 줄이기 위해, Einstein notation(아인슈타인 표기법)을 사용하자.   
-※ 아인슈타인 표기법이 뭐에요? 부록 3으로
+※ 아인슈타인 표기법이 뭐에요? [부록3](#appendix3)으로
 
 $$\tag{5.5}
 \mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} = x_ia_{ij}x_j
@@ -470,4 +470,80 @@ $$
 그러나, 이는 정확하지 않다. $(\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V})$는 $n\times m$ 행렬이고, $\boldsymbol{U}$는 $n\times r$ 행렬이다.
 행렬곱을 하기에 차원이 맞지 않는다.
 
-구하고자 하는 대상은 $\frac{d}{d\boldsymbol{V}}$이다. *Denominator layout matrix derivative* 표기법에 따라 결과값의 차원은 $\boldsymbol{V}$와 같은 $r \times m$이여야 한다.
+구하고자 하는 대상은 $\frac{d}{d\boldsymbol{V}}$이다. *Denominator layout matrix derivative* 표기법에 따라 결과값의 차원은 $\boldsymbol{V}$와 같은 $r \times m$이여야 한다. 
+따라서 전치를 포함해 $n\times m$행렬과 $n\times r$행렬을 곱해 $r\times m$행렬을 얻어야 한다. 
+방법은,  $\boldsymbol{U}^{\top}$를 $(\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V})$에 곱하는 것이다.
+따라서 추정한 답은 아래와 같다.
+
+$$\tag{5.16}
+\frac{d}{d \boldsymbol{V}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+-2\boldsymbol{U}^{\top}(\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V})
+$$
+
+과연 이 답이 맞을까? 직접 계산해보자.
+
+모든 $a$와 $b$에 대해, 아래 값을 찾아야 한다.
+
+$$\tag{5.17}
+\frac{d}{d v_{ab}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+\frac{d}{d v_{ab}}\sum_{i,j}\left(x_{ij}-\sum_k u_{ik}v_{kj}\right)^2
+$$
+
+$\boldsymbol{V}_{ab}$에 대한 미분이므로, $\boldsymbol{X}$와 $\boldsymbol{U}$의 모든 항은 상수 취급할 수 있다. 따라서,
+
+$$\tag{5.18}
+\frac{d}{d v_{ab}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+\sum_{i,j}2\left(x_{ij}-\sum_k u_{ik}v_{kj}\right)\left(-\sum_k u_{ik} \frac{d v_{kj}}{d v_{ab}}\right)
+$$
+
+$\frac{d v_{kj}}{d v_{ab}}$는 $k=a$, $j=b$일 때만 0이 아니므로, 아래와 같이 정리할 수 있다.
+
+$$\tag{5.19}
+\frac{d}{d v_{ab}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+-2\sum_{i}\left(x_{ib}-\sum_k u_{ik}v_{kb}\right)u_{ia}
+$$
+
+중요한 미묘한 점은, $k=a$라는 조건이 내부 합$\left(\sum_k u_{ik}v_{kj}\right)$에서는 발생하지 않는다는 것이다!
+이는 $k$가 내부 항에서 합산되는 더미 변수이기 떄문이다. 보다 자세한 이해를 위해, 아래를 참조하라.[<sup>[1]</sup>](#footnote-1)
+
+$$\tag{5.20}
+\frac{d}{dx_1}\left(\sum_i x_i\right)^2 = 2\left(\sum_i x_i\right)
+$$
+
+행렬 표현으로 나타내보자.
+
+$$\tag{5.21}
+\sum_k u_{ik}v_{kb} = [\boldsymbol{U}\boldsymbol{V}]_{ib}
+$$
+
+따라서 $\sum_i$안의 전체 표현은
+
+$$\tag{5.22}
+x_{ib}-\sum_k u_{ik}v_{kb} = [\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}]_{ib}
+$$
+
+---
+
+<a id="footnote-1"></a>[1]
+근데, 더 명확한 이해를 위해 애초에 아래와 같이 표시하면 안되나?
+
+$$
+\frac{d}{d v_{ab}}\|\boldsymbol{X}-\boldsymbol{U}\boldsymbol{V}\|_2^2
+=
+\sum_{i,j}2\left(x_{ij}-\sum_k u_{ik}v_{kj}\right)\left(-\sum_p u_{ip} \frac{d v_{pj}}{d v_{ab}}\right)
+$$
+
+이부분에 대해서 잘 아시는 분은 댓글 달아주시면 감사하겠습니다.
+
+<a id="appendix1"></a>
+## Appendix 1. 그래서 역전파가 왜 효율적인가?
+
+<a id="appendix2"></a>
+## Appendix 2. Clairaut's theorem(클레로의 정리)
+
+<a id="appendix3"></a>
+## Appendix 3. Einstein notation(아인슈타인 표기법) 
