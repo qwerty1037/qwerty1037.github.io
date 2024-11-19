@@ -6,11 +6,12 @@ categories: machine_learning
 tags: machine_learning
 toc: true
 toc_sticky: true
+classes: post_custom_link
 ---
 
 이 포스팅은 ML을 공부하기 전 알아두면 매우 유용한 다변수 미적분에 대해 다룬다.
 
-[<u>해당 책</u>](https://d2l.ai/chapter_appendix-mathematics-for-deep-learning/multivariable-calculus.html)의 내용을 공부하고, 이를 한글로 번역/정리하였다.   
+[해당 책](https://d2l.ai/chapter_appendix-mathematics-for-deep-learning/multivariable-calculus.html)의 내용을 공부하고, 이를 한글로 번역/정리하였다.   
 
 
 ## 1. 고차원 미분(Higher-Dimensional Differentiation)
@@ -45,6 +46,7 @@ $$
 
 <strong>higher_order_term(고차항)</strong>은 생략 가능하다. 위를 $N$개의 모든 $w$에 대해 반복하면 다음과 같다.
 
+<a id="equation1.3"></a>
 $$
 L(w_1+\epsilon_1,w_2+\epsilon_2,\cdots,w_N+\epsilon_N)
 \approx
@@ -110,7 +112,7 @@ $$
 
 이를 Neural Network로 시각화하면 아래와 같다.
 
-![image1](/assets/images/2024-08-22-MultiVariable_Calculus_files/image1.png)
+![image1](/assets/images/2024-08-22-MultiVariable_Calculus_files/image1.png){: width="30%" height="30%" .align-center}
 
 $\frac{\partial f}{\partial x}$를 직접 미분하여 구하려 하면, 매우 끔찍한 결과가 나올 것이다.   
 대신, $a$의 변동에 대한 $f$의 변화를 구해 보자.
@@ -153,7 +155,7 @@ $$
 
 ## 3. BackPropagation Algorithm(역전파 알고리즘)
 
-다시 아래 네트워크[(2.1)](#equation2.1)로 돌아오자.
+다시 아래 네트워크[(**2.1**)](#equation2.1)로 돌아오자.
 
 $$
 \begin{align*}
@@ -349,7 +351,7 @@ $$
 * $\frac{d}{d\mathbf{x}}\left( \mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} \right)$
 
 계산의 중복을 줄이기 위해, Einstein notation(아인슈타인 표기법)을 사용하자.   
-※ 아인슈타인 표기법이 뭐에요? [부록3](#appendix3)으로
+※ 아인슈타인 표기법이 뭐에요? [**부록3**](#appendix3)으로
 
 $$\tag{5.5}
 \mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} = x_ia_{ij}x_j

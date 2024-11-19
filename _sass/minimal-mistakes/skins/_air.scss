@@ -9,7 +9,7 @@ $muted-text-color: #393e46 !default;
 $primary-color: #0092ca !default;
 $border-color: mix(#fff, #393e46, 75%) !default;
 $footer-background-color: $primary-color !default;
-$link-color:  #393e46!default; //)#11999e
+$link-color: #393e46 !default; //)#11999e
 $masthead-link-color: $text-color !default;
 $masthead-link-color-hover: $text-color !default;
 $navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
@@ -20,4 +20,30 @@ $navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
 
 .page__footer-follow .social-icons .svg-inline--fa {
   color: inherit;
+}
+
+.post_custom_link {
+  $link-color: #11999e;
+
+  a {
+    color: $link-color;
+  }
+
+  a:hover {
+    color: darken($link-color, 15%);
+  }
+
+  a:visited {
+    color: $link-color;
+  }
+
+  // 다른 스타일과 충돌하지 않도록 제한
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $text-color; // 기본 텍스트 색상 유지
+  }
 }
