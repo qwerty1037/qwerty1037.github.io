@@ -35,28 +35,3 @@ $navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
 .page__content a:visited {
   color: #11999e;
 }
-
-/* 목차 링크는 기존 스타일 유지 */
-.page__content .toc a {
-  color: inherit;
-}
-
-.page__content .toc a:hover {
-  color: inherit;
-}
-
-.page__content .toc a:visited {
-  color: inherit;
-}
-
-.page__content .toc_menu a {
-  color: inherit;
-}
-
-.page__content .toc_menu a:hover {
-  color: inherit;
-}
-
-.page__content .toc_menu a:visited {
-  color: inherit;
-}
