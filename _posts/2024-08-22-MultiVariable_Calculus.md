@@ -140,6 +140,7 @@ $$
 예시를 들어, 아래와 같은 네트워크를 가정하자.
 
 [TODO: 이미지]
+![image1](/_images/2024-08-22-MultiVariable_Calculus_files/image1.png)
 
 $$
 \frac{\partial f}{\partial y} = 
