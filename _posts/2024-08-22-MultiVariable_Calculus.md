@@ -6,7 +6,6 @@ categories: machine_learning
 tags: machine_learning
 toc: true
 toc_sticky: true
-classes: post_custom_link
 ---
 
 이 포스팅은 ML을 공부하기 전 알아두면 매우 유용한 다변수 미적분에 대해 다룬다.

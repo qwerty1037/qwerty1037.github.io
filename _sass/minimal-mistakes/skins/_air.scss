@@ -22,28 +22,41 @@ $navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
   color: inherit;
 }
 
-.post_custom_link {
-  $link-color: #11999e;
 
-  a {
-    color: $link-color;
-  }
+/* 본문 내용의 링크 색만 수정 */
+.page__content a {
+  color: #11999e;
+}
 
-  a:hover {
-    color: darken($link-color, 15%);
-  }
+.page__content a:hover {
+  color: darken(#11999e, 15%);
+}
 
-  a:visited {
-    color: $link-color;
-  }
+.page__content a:visited {
+  color: #11999e;
+}
 
-  // 다른 스타일과 충돌하지 않도록 제한
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: $text-color; // 기본 텍스트 색상 유지
-  }
+/* 목차 링크는 기존 스타일 유지 */
+.page__content .toc a {
+  color: inherit;
+}
+
+.page__content .toc a:hover {
+  color: inherit;
+}
+
+.page__content .toc a:visited {
+  color: inherit;
+}
+
+.page__content .toc_menu a {
+  color: inherit;
+}
+
+.page__content .toc_menu a:hover {
+  color: inherit;
+}
+
+.page__content .toc_menu a:visited {
+  color: inherit;
 }
