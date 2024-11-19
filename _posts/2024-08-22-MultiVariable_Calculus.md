@@ -110,7 +110,7 @@ $$
 
 이를 Neural Network로 시각화하면 아래와 같다.
 
-[TODO: 이미지]
+![image1](/assets/images/2024-08-22-MultiVariable_Calculus_files/image1.png)
 
 $\frac{\partial f}{\partial x}$를 직접 미분하여 구하려 하면, 매우 끔찍한 결과가 나올 것이다.   
 대신, $a$의 변동에 대한 $f$의 변화를 구해 보자.
@@ -140,7 +140,6 @@ $$
 예시를 들어, 아래와 같은 네트워크를 가정하자.
 
 [TODO: 이미지]
-![image1](/assets/images/2024-08-22-MultiVariable_Calculus_files/image1.png)
 
 $$
 \frac{\partial f}{\partial y} = 
