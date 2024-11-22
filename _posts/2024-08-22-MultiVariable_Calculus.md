@@ -17,7 +17,6 @@ toc_sticky: true
 
 $N$개의 $w$중 하나의 작은 변화에 대하여, $L$의 변화는 다음과 같다.
 
-
 $$
 L(w_1+\epsilon_1,w_2,\cdots,w_N) 
 \approx 
@@ -208,7 +207,8 @@ $$
 
 ※ 다시 방향에 주목해보면, $\frac{\partial f}{\partial u}$ 부터 $\frac{\partial f}{\partial w}$로 내려가며 계산한다<Strong>(Output -> Input)</Strong>. 이를 <Strong>역방향</Strong>이라 정의한다.
 
-도함수를 입력->출력 순으로 계산하는 대신, $f$로부터 입력 쪽으로 역방향으로 계산한다. 이것이 이 알고리즘의 이름이 <Strong>역전파(BackPropagation)</Strong>인 이유다!   
+도함수를 입력->출력 순으로 계산하는 대신, $f$로부터 입력 쪽으로 역방향으로 계산한다. 이것이 이 알고리즘의 이름이 <Strong>역전파(BackPropagation)</Strong>인 이유다!  
+
 역전파는 2가지 단계를 따른다.   
 Step 1) $f$의 값을 구하고, 앞에서 뒤로 단일 단계 편미분(ex: $\frac{\partial f}{\partial u}$)을 구한다. (이들을 합치면 하나의 *forward pass*가 된다.)   
 Step 2) $f$의 gradient를 뒤에서 앞으로(*backward pass*) 구한다.
@@ -349,66 +349,23 @@ $$
 
 * $\frac{d}{d\mathbf{x}}\left( \mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} \right)$
 
-계산의 중복을 줄이기 위해, Einstein notation(아인슈타인 표기법)을 사용하자.   
+<a id="note-5-1"></a>
+
+계산의 중복을 줄이기 위해, Einstein notation(아인슈타인 표기법)을 사용하자.[<sup>[5-1]</sup>](#footnote-5-1)   
 ※ 아인슈타인 표기법이 뭐에요? [**부록3**](#appendix3)으로
 
 $$\tag{5.5}
 \mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} = x_ia_{ij}x_j
 $$
 
-여기서부터 혼돈이 올 수 있으므로, 간단한 예시를 들어 직접 계산해보자.
-
-$$\tag{5.6}
-\mathbf{x} = 
-\begin{bmatrix}
-x_1 \\ x_2
-\end{bmatrix}
-,\ 
-\boldsymbol{A} = 
-\begin{bmatrix}
-a_{11} & a_{12} \\
-a_{21} & a_{22}
-\end{bmatrix},
-$$
-
-일 때,
-
-$$\tag{5.7}
-\begin{align*}
-\mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} 
-&=
-\begin{bmatrix}
-x_1 & x_2
-\end{bmatrix}
-\begin{bmatrix}
-a_{11} & a_{12} \\
-a_{21} & a_{22}
-\end{bmatrix}
-\begin{bmatrix}
-x_1 \\ x_2
-\end{bmatrix} \\
-&=
-\begin{bmatrix}
-x_1 & x_2
-\end{bmatrix}
-\begin{bmatrix}
-a_{11}x_1 + a_{12}x_2 \\ a_{21}x_1 + a_{22}x_2
-\end{bmatrix} \\
-&= x_1a_{11}x_1 + x_1a_{12}x_2 + x_2a_{21}x_1 + x_2a_{22}x_2 \\
-&= \sum_{i=1}^2 \sum_{j=1}^2 x_ia_{ij}x_j
-\end{align*}
-$$
-
-따라서 아인슈타인 표기법으로 나타내면 (수식 5.5)와 같다.
-
-다시 나아가서,
+$x_k$에 대해 미분하면,
 
 $$\tag{5.8}
 \frac{d}{dx_k}\left(\mathbf{x}^{\top} \boldsymbol{A} \mathbf{x}\right) = \frac{d}{dx_k} x_ia_{ij}x_j
 = \frac{dx_i}{dx_k}a_{ij}x_j + x_ia_{ij}\frac{dx_j}{dx_k} = a_{kj}x_j+x_ia_{ik}
 $$
 
-아인슈타인 표기법에서 인덱스의 이름은 임의적이다. i와 j가 다른 인덱스라는 것은 중요하지 않으므로, 둘 다 $i$로 인덱싱하자.
+아인슈타인 표기법에서 인덱스의 이름은 임의적이다. $i$와 $j$가 다른 인덱스라는 것은 중요하지 않으므로, 둘 다 $i$로 인덱싱하자.
 
 $$\tag{5.9}
 \frac{d}{dx_k}x_ia_{ij}x_j = a_{kj}x_j+x_ia_{ik} = a_{ki}x_i+x_ia_{ik} = (a_{ki}+a_{ik})x_i
@@ -430,7 +387,7 @@ $$\tag{5.11}
 = [(\boldsymbol{A} + \boldsymbol{A}^{\top})\mathbf{x}]_k
 $$
 
-좌항과 우항의 k번째 행이 모두 같으므로, 두 값이 같다. 최종적으로 다음을 얻을 수 있다.
+좌항과 우항의 $k$번째 행이 모두 같으므로, 두 값이 같다. 최종적으로 다음을 얻을 수 있다.
 
 $$\tag{5.12}
 \frac{d}{d\mathbf{x}}(\mathbf{x}^{\top}\boldsymbol{A}\mathbf{x}) = (\boldsymbol{A} + \boldsymbol{A}^{\top})\mathbf{x}
@@ -452,7 +409,7 @@ $$
 
 $\boldsymbol{X}$는 $n \times m$행렬, $\boldsymbol{U}$는 $n \times r$행렬, $\boldsymbol{V}$는 $r \times m$행렬이다. 
 
-이 계산은 *Matrix Factorization(행렬 분해)* 영역에서 중요한 역할을 한다. 그러나, 지금은 그냥 미분 계산에 불과하다.
+※ 이 계산은 *Matrix Factorization(행렬 분해)* 영역에서 중요한 역할을 한다. 그러나, 지금은 그냥 미분 계산에 불과하다.
 
 1 $\times$ 1 행렬(scalar)에서는 어떠할지 생각해 보자. 
 
@@ -508,8 +465,10 @@ $$\tag{5.19}
 -2\sum_{i}\left(x_{ib}-\sum_k u_{ik}v_{kb}\right)u_{ia}
 $$
 
+<a id="note-5-2"></a>
+
 중요한 미묘한 점은, $k=a$라는 조건이 내부 합$\left(\sum_k u_{ik}v_{kj}\right)$에서는 발생하지 않는다는 것이다!
-이는 $k$가 내부 항에서 합산되는 더미 변수이기 떄문이다. 보다 자세한 이해를 위해, 아래를 참조하라.[<sup>[1]</sup>](#footnote-1)
+이는 $k$가 내부 항에서 합산되는 더미 변수이기 떄문이다. 보다 자세한 이해를 위해, 아래를 참조하라.[<sup>[5-2]</sup>](#footnote-5-2)
 
 $$\tag{5.20}
 \frac{d}{dx_1}\left(\sum_i x_i\right)^2 = 2\left(\sum_i x_i\right)
@@ -564,7 +523,53 @@ $$
 
 ---
 
-<a id="footnote-1"></a>[1]
+<a id="footnote-5-1"></a> [[5-1]](#note-5-1)
+여기서부터 혼돈이 올 수 있으므로, 간단한 예시를 들어 직접 계산해보자.
+
+$$\tag{5.6}
+\mathbf{x} = 
+\begin{bmatrix}
+x_1 \\ x_2
+\end{bmatrix}
+,\ 
+\boldsymbol{A} = 
+\begin{bmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{bmatrix},
+$$
+
+일 때,
+
+$$\tag{5.7}
+\begin{align*}
+\mathbf{x}^{\top} \boldsymbol{A} \mathbf{x} 
+&=
+\begin{bmatrix}
+x_1 & x_2
+\end{bmatrix}
+\begin{bmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\ x_2
+\end{bmatrix} \\
+&=
+\begin{bmatrix}
+x_1 & x_2
+\end{bmatrix}
+\begin{bmatrix}
+a_{11}x_1 + a_{12}x_2 \\ a_{21}x_1 + a_{22}x_2
+\end{bmatrix} \\
+&= x_1a_{11}x_1 + x_1a_{12}x_2 + x_2a_{21}x_1 + x_2a_{22}x_2 \\
+&= \sum_{i=1}^2 \sum_{j=1}^2 x_ia_{ij}x_j
+\end{align*}
+$$
+
+따라서 아인슈타인 표기법으로 나타내면 (수식 5.5)와 같다.
+
+<a id="footnote-5-2"></a> [[5-2]](#note-5-2)
 근데, 더 명확한 이해를 위해 애초에 아래와 같이 표시하면 안되나?
 
 $$
