@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Multivariable Culculus"
+title: "Multivariable Calculus"
 use_math : true
 categories: machine_learning
 tags: machine_learning
