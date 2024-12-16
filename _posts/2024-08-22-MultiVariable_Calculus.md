@@ -583,6 +583,35 @@ $$
 <a id="appendix1"></a>
 ## Appendix 1. 그래서 역전파가 왜 효율적인가?
 
+아래의 신경망을 가정하자.
+
+//TODO: 이미지 추가
+
+$$
+\begin{align*}
+h_1 &= \sigma(w_{11}x_1+w_{12}x_2) & y=w_3h_1+w_4h_2\\ 
+h_2 &= \sigma(w_{21}x_1+w_{22}x_2)
+\end{align*}
+$$
+
+목표는, 손실함수 $\boldsymbol{L} = \frac{1}{2}(y-t)^2$에 대해 모든 가중치에 대한 기울기 $\frac{\partial \boldsymbol{L}}{\partial \mathbf{w}}$를 계산하는 것이다.   
+※ t: 실제 타겟값
+
+* 정방향
+
+1. 순전파 계산
+
+    * 입력-> 은닉층:
+
+    $$
+    \begin{align*}
+    h1 &= \sigma(z_1), & z_1 = w_{11}x_1+w_{12}x_2 \\
+        h1 &= \sigma(z_1), & z_1 = w_{11}x_1+w_{12}x_2 \\
+
+    \end{align*}
+    $$
+
+
 <a id="appendix2"></a>
 ## Appendix 2. Clairaut's theorem(클레로의 정리)
 
